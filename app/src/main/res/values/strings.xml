@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">RoseSystem</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_kasir">KasirActivity</string>
+    <string name="title_activity_koki">KokiActivity</string>
+    <string name="title_activity_pelayan">PelayanActivity</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="title_activity_tambah_menu">TambahMenuActivity</string>
+</resources>
