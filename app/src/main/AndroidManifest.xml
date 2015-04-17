@@ -19,24 +19,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".KasirActivity"
-            android:label="@string/title_activity_kasir" >
-        </activity>
-        <activity
-            android:name=".KokiActivity"
-            android:label="@string/title_activity_koki" >
-        </activity>
-        <activity
             android:name=".PelayanActivity"
             android:label="@string/title_activity_pelayan" >
         </activity>
         <activity
-            android:name=".MenuActivity"
-            android:label="@string/title_activity_menu" >
+            android:name=".StatusPesananActivity"
+            android:label="@string/title_activity_status_pesanan" >
         </activity>
         <activity
-            android:name=".TambahMenuActivity"
-            android:label="@string/title_activity_tambah_menu" >
+            android:name=".KasirActivity"
+            android:label="@string/title_activity_kasir" >
+        </activity>
+        <activity
+            android:name=".StatusPembayaranActivity"
+            android:label="@string/title_activity_status_pembayaran" >
+        </activity>
+        <activity
+            android:name=".TambahPesananActivity"
+            android:label="@string/title_activity_tambah_pesanan" >
+        </activity>
+        <activity
+            android:name=".KokiActivity"
+            android:label="@string/title_activity_koki" >
         </activity>
     </application>
 

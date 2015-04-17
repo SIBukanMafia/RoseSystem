@@ -3,9 +3,10 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_kasir">KasirActivity</string>
-    <string name="title_activity_koki">KokiActivity</string>
     <string name="title_activity_pelayan">PelayanActivity</string>
-    <string name="title_activity_menu">MenuActivity</string>
-    <string name="title_activity_tambah_menu">TambahMenuActivity</string>
+    <string name="title_activity_status_pesanan">StatusPesananActivity</string>
+    <string name="title_activity_kasir">KasirActivity</string>
+    <string name="title_activity_status_pembayaran">StatusPembayaranActivity</string>
+    <string name="title_activity_tambah_pesanan">TambahPesananActivity</string>
+    <string name="title_activity_koki">KokiActivity</string>
 </resources>

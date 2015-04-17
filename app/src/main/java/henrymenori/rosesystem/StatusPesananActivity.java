@@ -1,7 +1,6 @@
 package henrymenori.rosesystem;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,7 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class KokiActivity extends ActionBarActivity {
+public class StatusPesananActivity extends ActionBarActivity {
 
     Firebase f;
     ListView lv;
@@ -33,37 +31,26 @@ public class KokiActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_koki);
+        setContentView(R.layout.activity_status_pesanan);
+
+        id_meja = getIntent().getExtras().getInt("id_meja");
 
         // firebase initialization
         Firebase.setAndroidContext(this);
         f = new Firebase("https://webservice.firebaseio.com");
 
         // listview initialization
-        lv = (ListView) findViewById(R.id.listView6);
+        lv = (ListView) findViewById(R.id.listView2);
 
         // load data
         loadDataPesanan();
-
-        // setting listener to list
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // update status_penyajian
-                RPesanan p = (RPesanan) listPesanan.get(position);
-                f.child("terdiri_dari").child(p.getStatus()).child("status_penyajian").setValue("true");
-
-                PesananArrayAdapter adapter = new PesananArrayAdapter(KokiActivity.this, listPesanan);
-                lv.setAdapter(adapter);
-            }
-        });
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_koki, menu);
+        getMenuInflater().inflate(R.menu.menu_status_pesanan, menu);
         return true;
     }
 
@@ -88,20 +75,29 @@ public class KokiActivity extends ActionBarActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 listPesanan = new ArrayList<RPesanan>();
 
+                // get id_pesanan
+                ArrayList pesanan = (ArrayList) dataSnapshot.child("pesanan").getValue();
+                for(int i=1; i<pesanan.size(); i++) {
+                    HashMap<String, Object> mapPesanan = (HashMap<String, Object>) pesanan.get(i);
+                    int temp = Integer.parseInt((String) mapPesanan.remove("no_meja"));
+                    if(temp == id_meja) {
+                        id_pesanan = i;
+                    }
+                }
+
                 // get data pesanan
                 ArrayList terdiri = (ArrayList) dataSnapshot.child("terdiri_dari").getValue();
                 for(int i=1; i<terdiri.size(); i++) {
                     HashMap<String, Object> mapTerdiri = (HashMap<String, Object>) terdiri.get(i);
-                    if(((String) mapTerdiri.remove("status_penyajian")).equals("false")) {
+                    int temp = Integer.parseInt((String) mapTerdiri.remove("id_pesanan"));
+                    if(temp == id_pesanan) {
                         String nama = (String) dataSnapshot.child("menu").child((String) mapTerdiri.remove("id_menu")).child("nama").getValue();
-                        int kuantitas = Integer.parseInt((String) mapTerdiri.remove("kuantitas"));
-                        String status = "" + i;
-                        RPesanan p = new RPesanan(nama, kuantitas, status);
+                        RPesanan p = new RPesanan(nama, Integer.parseInt((String) mapTerdiri.remove("kuantitas")), (String) mapTerdiri.remove("status_penyajian"));
                         listPesanan.add(p);
                     }
                 }
 
-                PesananArrayAdapter adapter = new PesananArrayAdapter(KokiActivity.this, listPesanan);
+                PesananArrayAdapter adapter = new PesananArrayAdapter(StatusPesananActivity.this, listPesanan);
                 lv.setAdapter(adapter);
             }
 
@@ -134,7 +130,12 @@ public class KokiActivity extends ActionBarActivity {
             RPesanan r = (RPesanan) values.get(position);
             textView.setText(r.getNama());
             textView2.setText(""+r.getKuantitas());
-            textView3.setText(r.getStatus());
+            if(r.getStatus().equals("true")) {
+                textView3.setText("Sudah Disajikan");
+            }
+            else {
+                textView3.setText("Sedang Diproses");
+            }
 
             return rowView;
         }

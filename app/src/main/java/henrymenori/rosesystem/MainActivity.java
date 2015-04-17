@@ -7,40 +7,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
-
 
 public class MainActivity extends ActionBarActivity {
-
-    String s;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // firebase initialization
-        Firebase.setAndroidContext(this);
-        Firebase f = new Firebase("https://webservice.firebaseio.com");
-
-        // write to firebase
-        //f.child("users").setValue("menori");
-
-        // load from firebase
-        /*f.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                System.out.println(snapshot.getValue());
-                System.out.println(snapshot.child("users").getValue());
-            }
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                System.out.println("The read failed: " + firebaseError.getMessage());
-            }
-        });*/
     }
 
 
@@ -66,6 +39,11 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void selectPelayan(View view) {
+        Intent in = new Intent(this, PelayanActivity.class);
+        startActivity(in);
+    }
+
     public void selectKasir(View view) {
         Intent in = new Intent(this, KasirActivity.class);
         startActivity(in);
@@ -73,16 +51,6 @@ public class MainActivity extends ActionBarActivity {
 
     public void selectKoki(View view) {
         Intent in = new Intent(this, KokiActivity.class);
-        startActivity(in);
-    }
-
-    public void selectPelayan(View view) {
-        Intent in = new Intent(this, PelayanActivity.class);
-        startActivity(in);
-    }
-
-    public void selectMenu(View view) {
-        Intent in = new Intent(this, MenuActivity.class);
         startActivity(in);
     }
 }
